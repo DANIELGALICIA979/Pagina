@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    
+    <link href="https://fonts.google.com/specimen/Montserrat" rel="styleinicio.css">
     <meta charset="UTF-8">
     <title>Inicio</title>
     <link rel="stylesheet" href="styleinicio.css">
 </head>
-<body>
-    <header>
-    <div style="position: relative; width: 100%;max-width: 1600px; height: 110px; margin: 0 auto;">
-        <div style="position: absolute; left: -10px; top: 0; width: 1700px; height: 110px; background: radial-gradient(circle, #dca791 0%, #802d20 100%); z-index: 1;"></div>
-        <img src="LOBA1.png" style="position: absolute; left: 20px; top: 20px; width: 150px; height: 65px; z-index: 2;">
-        <img src="prueba1.jpg" class="img-resalta" style="position: absolute; left: 1000px; top: 220px; width:400px; height: 200px; z-index:3">
-        <button class="boton-ingreso" onclick="window.location.href='ingreso.html'" style="position: absolute; right: 20px; top: 35px; z-index: 2;">INGRESAR</button>
-        <button class="boton-registro" onclick="window.location.href='ingreso.html'" style="position: absolute; right: 150px; top: 35px; z-index: 2;">INGRESAR</button>
-    </div>
 
+<body>
+    <!-- principal.html (fragmento mejorado) -->
+    <header>
+        <div class="header-container">
+            <div class="header-bg"></div>
+            <img src="LOBA1.png" class="logo">
+            <div class="header-buttons">
+                <button class="boton-ingreso" onclick="window.location.href='ingreso.html'">INGRESAR</button>
+                <button class="boton-registro" onclick="window.location.href='ingreso.html'">REGISTRARSE</button>
+            </div>
+        </div>
     </header>
     <main>
+        <section class="section-conocenos">
+            <h1 class="titulo-1">CONÓCENOS</h1>
+            <p class="parrafo-texto1">Creemos que el acceso a alimentos básicos no debe ser un privilegio, sino un derecho. Somos una plataforma dedicada a facilitar la gestión, distribución y seguimiento de despensas gubernamentales, asegurando que lleguen de manera eficiente y justa a quienes más lo necesitan.
+            Nuestro compromiso es con la transparencia, la equidad y la mejora continua. Trabajamos de la mano con instituciones públicas, comunidades locales y voluntarios para optimizar cada etapa del proceso: desde el registro de beneficiarios hasta la entrega final.
+            Más que una herramienta tecnológica, somos un puente entre la ayuda social y las familias que dependen de ella. Porque detrás de cada despensa hay una historia, una necesidad, y una oportunidad de construir un país más solidario. </p>
+            <img src="I1.jpg" class="img-resalta" >
+        </section>
+        <section class="section-tipos">
+            <h1 class="titulo-2">TIPOS DE APOYO</h1>
+            <p class="parrafo-texto2">Actualmente estan disponibles los siguientes apoyos: </p>
+            <h2 class="titulo-h2">DESPENSA 1</h2>
+        </section>
         
-        <div style="position: relative; left: 45px; top:0;">
-            <h1 style="position: absolute; left: 300px; top:0;">CONOCENOS</h1>
-            <p class="parrafo-texto">Las despensas del bienestar son causas.</p>
-        </div>
-        <div style="position: relative; left: 45px; top:600px;">
-            <h1 style="position: absolute; left:300px; top:0;">TIPOS DE APOYO</h1>
-            <p class="parrafo-texto">Tipos de apoyo: .</p>
-        </div>
-        
-
     </main>
     <!--
     <footer>
