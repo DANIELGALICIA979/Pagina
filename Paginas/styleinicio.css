@@ -60,7 +60,7 @@ body{
   color: #c4cac3;
   font-weight: 1;
   font-size: 30px;
-  margin: 3rem auto 2rem 1rem;
+  margin: 8rem auto 2rem 1rem;
   
   display: block;
 }
@@ -70,7 +70,7 @@ body{
   color: #c4cac3;
   font-weight: 1;
   font-size: 30px;
-  margin: 3rem auto 2rem 4rem;
+  margin: 8rem auto 2rem 4rem;
   
   display: block;
 }
@@ -80,7 +80,7 @@ body{
   color: #c4cac3;
   font-weight: 1;
   font-size: 30px;
-  margin: 3rem auto 2rem 1rem;
+  margin: 8rem auto 2rem 1rem;
   display: block;
   text-align: right;
 }
@@ -168,6 +168,45 @@ body{
   z-index: 2;
   flex-shrink: 0; /* Evita que se encoja */
   margin-left: 0;
+}
+
+.imagenNum1 {
+  width: 120px; /* Tamaño fijo */
+  height: auto;
+  min-width: 80px;
+  max-width: 150px;
+  z-index: 3;
+  flex-shrink: 0; /* Evita que se encoja */
+  margin: 1rem auto 3rem 0rem;
+  position: absolute;
+  left: 5rem;
+  bottom: 3rem;
+}
+
+.imagenNum2 {
+  width: 120px; /* Tamaño fijo */
+  height: auto;
+  min-width: 80px;
+  max-width: 150px;
+  z-index: 3;
+  flex-shrink: 0; /* Evita que se encoja */
+  margin: 1rem 10rem 3rem 0rem;
+  position: absolute;
+  left: 25rem;
+  bottom: 3rem;
+}
+
+.imagenNum3 {
+  width: 120px; /* Tamaño fijo */
+  height: auto;
+  min-width: 80px;
+  max-width: 150px;
+  z-index: 3;
+  flex-shrink: 0; /* Evita que se encoja */
+  margin: 1rem 10rem 3rem auto;
+  position: absolute;
+  right: 0rem;
+  bottom: 3rem;
 }
 
 .header-buttons {
