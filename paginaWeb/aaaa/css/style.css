@@ -31,6 +31,8 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 30px;
+  /* forzar altura conocida para poder compensar el contenido debajo */
+  height: 80px;
   position: fixed;
   top: 0;
   left: 0;
@@ -108,6 +110,13 @@ nav button:hover {
   align-items: center;
   text-align: center;
   overflow: hidden;
+}
+
+/* Si header está fijo (position: fixed), dejar espacio en la parte superior
+   del contenido para que no quede oculto por el banner. Ajusta 80px
+   si tu header tiene otra altura. */
+main {
+  padding-top: 80px;
 }
 
 .slides {
@@ -373,3 +382,65 @@ body::-webkit-scrollbar {
   transform: translateY(-10px) scale(1.02);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
+
+.oculto {
+  display: none !important;
+}
+
+form section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: bold;
+}
+
+select, input { 
+  margin-top: 5px;
+  padding: 8px;
+  width: 100%;
+  border-radius: 5px;
+  border: #d7a773;
+}
+
+.pregunta {
+  padding: 10px;
+  border-radius: 6px;
+}
+
+/* Estilos para modal de resultado */
+.modal {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  padding: 20px;
+  font-size: 27px;
+}
+.modal .modal-content {
+  position: relative;
+  background: white;
+  color: var(--rust);
+  border-radius: 12px;
+  padding: 24px 28px;
+  height: 150px;
+  width: min(500px, 100%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+}
+.modal .modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--rust);
+}
+.modal h3 { margin-top: 0; }

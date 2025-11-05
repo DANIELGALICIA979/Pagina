@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evaluación de apoyo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Evaluación para apoyo de Despensa</h1>
+    </header>
+    <main>
+        <form id="form-evaluacion">
+
+            <div class="pregunta">
+                <h2>Datos Personales</h2>
+                <label>Edad:</label>
+                <input type="number" id="edad" name="edad" min="0" max="120" required>
+                </select>
+            </div>
+
+            <div class="pregunta">
+                <label>¿Actualmente tienes empleo?</label>
+                <select id="empleo" name="empleo" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select> 
+            </div>  
+        
+            <div class="pregunta">
+                <label>¿Cuantas personas dependen económicamente de ti?</label>
+                <select id="dependientes" name="dependientes" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="0">Ninguna</option>
+                    <option value="1">1-2</option>
+                    <option value="3">3 o más</option>
+                </select>  
+            </div>
+            
+            <div class="pregunta">
+                <label>¿Recibes actualmente otro tipo de apoyo?</label>
+                <select id="otros-apoyos" name="otros-apoyos" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="pregunta">
+                <label>¿Tienes alguna discapacidad o enfermedad cronica?</label>
+                <select id="discapacidad" name="discapacidad" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="si">Sí</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <!-- <button type="submit">Enviar Evaluación</button> -->
+            <button type="submit">Enviar Evaluación</button>
+        </form>
+
+        <div id="resultado" class="oculto"></div>
+                <!-- Modal de resultado -->
+                <div id="modal-resultado" class="modal oculto" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+                    <div class="modal-content">
+                        <button class="modal-close" aria-label="Cerrar ventana">&times;</button>
+                        <h3 id="modal-title">Resultado de la evaluación</h3>
+                        <p>Puntuación total: <strong id="modal-puntuacion">0</strong></p>
+                        <p>Nivel asignado: <strong id="modal-nivel">-</strong></p>
+                    </div>
+                </div>
+    </main>
+
+    <script src="js/evaluacion.js"></script>
+</body>
+</html>
+
+
