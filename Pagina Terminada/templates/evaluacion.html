@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Evaluación Socioeconómica</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Evaluación Socioeconómica para Apoyo de Despensa</h1>
+  </header>
+
+  <main style="margin-top: 100px; padding: 20px;">
+    <section class="instrucciones">
+      <h2>Instrucciones</h2>
+      <p>
+        Por favor completa cuidadosamente el siguiente formulario con tu información personal y socioeconómica. 
+        Asegúrate de adjuntar tus documentos oficiales (INE y comprobante de domicilio). 
+        Todos los campos marcados con * son obligatorios.
+      </p>
+    </section>
+
+    <form method="POST" enctype="multipart/form-data">
+
+      <h2>Datos Personales</h2>
+      <div class="pregunta">
+        <label>Nombre completo *</label>
+        <input type="text" id="nombre" name="nombre" required>
+      </div>
+
+      <div class="pregunta">
+        <label>CURP *</label>
+        <input type="text" id="curp" name="curp" maxlength="18" required value="{{ datos.curp if datos else '' }}" {% if error_curp %} class="input-error" {% endif %}>
+         
+        {% if error_curp %}
+        <span class="error-text">{{ error_curp }}</span>
+        {% endif %}
+      </div>
+
+      <div class="pregunta">
+        <label>Edad *</label>
+        <input type="number" id="edad" name="edad" min="0" max="120" required>
+      </div>
+
+      <div class="pregunta">
+        <label>Género</label>
+        <select id="genero" name="genero">
+          <option value="">Selecciona una opción</option>
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+          <option value="Otro">Otro</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Estado civil</label>
+        <select id="estado_civil" name="estado_civil">
+          <option value="">Selecciona una opción</option>
+          <option value="Soltero">Soltero(a)</option>
+          <option value="Casado">Casado(a)</option>
+          <option value="Divorciado">Divorciado(a)</option>
+          <option value="Viudo">Viudo(a)</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Nivel educativo</label>
+        <select id="educacion" name="educacion">
+          <option value="">Selecciona una opción</option>
+          <option value="Primaria">Primaria</option>
+          <option value="Secundaria">Secundaria</option>
+          <option value="Preparatoria">Preparatoria</option>
+          <option value="Universidad">Universidad</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Ocupación actual *</label>
+        <input type="text" id="ocupacion" name="ocupacion" required>
+      </div>
+
+      <div class="pregunta">
+        <label>¿Actualmente tienes empleo? *</label>
+        <select id="empleo" name="empleo" required>
+          <option value="">Selecciona una opción</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Ingresos mensuales aproximados *</label>
+        <input type="number" id="ingresos" name="ingresos" min="0" step="0.01" required>
+      </div>
+
+      <div class="pregunta">
+        <label>Número de integrantes en tu hogar *</label>
+        <input type="number" id="integrantes" name="integrantes" min="1" required>
+      </div>
+
+      <div class="pregunta">
+        <label>¿Cuántas personas dependen económicamente de ti?</label>
+        <select id="dependientes" name="dependientes">
+          <option value="">Selecciona una opción</option>
+          <option value="0">Ninguna</option>
+          <option value="1">1-2</option>
+          <option value="3">3 o más</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Tipo de vivienda</label>
+        <select id="vivienda" name="vivienda">
+          <option value="">Selecciona una opción</option>
+          <option value="Propia">Propia</option>
+          <option value="Rentada">Rentada</option>
+          <option value="Prestada">Prestada</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Zona donde habitas</label>
+        <select id="zona" name="zona">
+          <option value="">Selecciona una opción</option>
+          <option value="Urbana">Urbana</option>
+          <option value="Rural">Rural</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>¿Tienes acceso a servicios básicos (agua, luz, drenaje)?</label>
+        <select id="servicios" name="servicios">
+          <option value="">Selecciona una opción</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>¿Tienes alguna discapacidad o enfermedad crónica?</label>
+        <select id="discapacidad" name="discapacidad">
+          <option value="">Selecciona una opción</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>¿Recibes actualmente otro tipo de apoyo?</label>
+        <select id="otros-apoyos" name="otros-apoyos">
+          <option value="">Selecciona una opción</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+
+      <div class="pregunta">
+        <label>Teléfono de contacto *</label>
+        <input type="tel" id="telefono" name="telefono" maxlength="15" required>
+      </div>
+
+      <div class="pregunta">
+        <label>Dirección completa *</label>
+        <input type="text" id="direccion" name="direccion" required>
+      </div>
+
+      <div class="pregunta">
+        <label>Motivo por el que solicita el apoyo *</label>
+        <textarea id="motivo" name="motivo" rows="4" required></textarea>
+      </div>
+
+      <hr style="margin: 30px 0;">
+
+      <h2>Documentos Oficiales</h2>
+      <div class="pregunta">
+        <label>Subir INE (imagen o PDF)</label>
+        <input type="file" id="ine" name="ine" accept=".jpg,.jpeg,.png,.pdf" required>
+      </div>
+
+      <div class="pregunta">
+        <label>Subir comprobante de domicilio (imagen o PDF)</label>
+        <input type="file" id="comprobante" name="comprobante" accept=".jpg,.jpeg,.png,.pdf" required>
+      </div>
+
+      <button type="submit">Enviar formulario</button>
+    </form>
+
+    <!-- Modal de confirmación -->
+    <div id="modal-confirmacion" class="modal oculto" role="dialog" aria-modal="true">
+      <div class="modal-content">
+        <h3>Se han enviado tus respuestas</h3>
+        <p>Estamos revisando tu solicitud.</p>
+        <button id="btn-volver" class="modal-close">Volver a la página principal</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("form-evaluacion").addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("modal-confirmacion").classList.remove("oculto");
+      document.body.classList.add("no-scroll");
+    });
+
+    document.getElementById("btn-volver").addEventListener("click", function() {
+      window.location.href = "index.html"; // redirige a la página principal
+    });
+  </script>
+</body>
+</html>

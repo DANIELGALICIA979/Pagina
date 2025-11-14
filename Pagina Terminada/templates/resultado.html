@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Solicitud enviada</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: var(--cream);
+      color: var(--rust);
+      font-family: "Elegante Classica", serif;
+      text-align: center;
+    }
+    .mensaje {
+      background-color: var(--wheat);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    .mensaje h2 {
+      margin-bottom: 15px;
+    }
+    .boton-volver {
+      margin-top: 20px;
+      background-color: var(--rust);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .boton-volver:hover {
+      background-color: var(--terracotta);
+    }
+  </style>
+</head>
+<body>
+  <div class="mensaje">
+    <h2>Se han enviado tus respuestas</h2>
+    <p>Estamos revisando tu solicitud. Te notificaremos el resultado pronto.</p>
+    <form action="{{ url_for('home') }}">
+      <button class="boton-volver">Volver a la página principal</button>
+    </form>
+  </div>
+</body>
+</html>
