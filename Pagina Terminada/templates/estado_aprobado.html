@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitud aprobada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="estado-bg"></div>
+
+<div class="estado-container">
+    <div class="estado-card">
+        <h1>¡Felicidades!</h1>
+        <p>Tu solicitud ha sido aprobada.</p>
+        <p>Nos pondremos en contacto contigo pronto a través del correo electronico registrado.</p>
+
+        <a href="{{ url_for('home') }}" class="boton-volver">Volver al inicio</a>
+    </div>
+</div>
+
+</body>
+</html>

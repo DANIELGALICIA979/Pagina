@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitud rechazada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="estado-bg"></div>
+
+<div class="estado-container">
+    <div class="estado-card">
+        <h1>Lo sentimos</h1>
+        <p>Tu solicitud no fue aprobada en esta ocasión.</p>
+        <p>¡Puedes volver a intentarlo más adelante en otra convocatoria!.</p>
+
+        <a href="{{ url_for('home') }}" class="boton-volver">Volver al inicio</a>
+    </div>
+</div>
+
+</body>
+</html>
