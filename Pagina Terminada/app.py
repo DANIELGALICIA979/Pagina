@@ -142,7 +142,7 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    session.pop('_flashes', None)
+    #session.pop('_flashes', None)
     if request.method == "POST":
         correo = request.form["correo"]
         contrasena = request.form["contrasena"]
@@ -155,7 +155,7 @@ def login():
             session["correo"] = usuario["correo"]
             session["id_usuario"] = usuario["id"]
             flash("¡Inicio de sesión exitoso!")
-            return redirect(url_for("evaluacion"))
+            return redirect(url_for("estado"))
         else:
             flash("Correo o constraseña incorrectos")
     return render_template_string(plantilla_login)
@@ -300,6 +300,36 @@ def evaluacion():
 @app.route("/resultado")
 def resultado():
     return render_template("resultado.html")
+
+@app.route("/estado")
+def estado():
+    usuario_id = session.get("id_usuario")
+    if not usuario_id:
+        return redirect(url_for("login"))
+
+    # Ver si el usuario ya envió el formulario
+    cursor.execute("SELECT status FROM formularios WHERE usuario_id = %s", (usuario_id,))
+    resultado = cursor.fetchone()
+
+    # Si NO tiene formulario → mandarlo a evaluacion
+    if not resultado:
+        return redirect(url_for("evaluacion"))
+
+    status = resultado["status"]
+
+    # Redirigir según status
+    if status == "En revisión":
+        return render_template("estado_revision.html")
+
+    elif status == "Aprobado":
+        return render_template("estado_aprobado.html")
+
+    elif status == "Denegado":
+        return render_template("estado_denegado.html")
+
+    else:
+        return "Error: Estado desconocido."
+
 
 ##################################################################
 
