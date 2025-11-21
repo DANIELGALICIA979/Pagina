@@ -1,9 +1,10 @@
-from flask import Flask, render_template, render_template_string, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import re
 import mysql.connector
 import bcrypt
 import os
 from werkzeug.utils import secure_filename
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -17,7 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = mysql.connector.connect(
     host="localhost",
     user="root",         # ← cambia si tu usuario no es root
-    password="202233759",  # ← pon aquí tu contraseña de MySQL
+    password="xd",  # ← pon aquí tu contraseña de MySQL
     database="paginaweb"
 )
 cursor = db.cursor(dictionary=True)
@@ -44,96 +45,14 @@ def validar_contrasena(contrasena):
     
     return True, "Contraseña válida"
 
-plantilla_login = """
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <title>Login</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #802d20; color: white; text-align: center; }
-        .container { background: #d7a773; padding: 30px; border-radius: 15px; width: 300px; margin: auto; margin-top: 100px; }
-        input { padding: 10px; width: 90%; margin: 5px 0; border: none; border-radius: 8px; }
-        button { background: #c96148; color: white; border: none; padding: 10px; width: 100%; margin-top: 10px; border-radius: 8px; cursor: pointer; }
-        button:hover { background: #dca791; }
-        a { color: #c96148; text-decoration: none; }
-        .alert { background: #ff6b6b; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
-        .success { background: #51cf66; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
-        .password-requirements { text-align: left; background: #f8f9fa; color: #333; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Iniciar sesión</h2>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <form method="post">
-            <input type="email" name="correo" placeholder="Correo" required><br>
-            <input type="password" name="contrasena" placeholder="Contraseña" required><br>
-            <button type="submit">Ingresar</button>
-        </form>
-        <p>¿No tienes cuenta? <a href="{{ url_for('registro') }}">Regístrate aquí</a></p>
-    </div>
-</body>
-</html>
-"""
-
-plantilla_registro = """
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="utf-8">
-    <title>Registro</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #c96148; color: white; text-align: center; }
-        .container { background: #802d20; padding: 30px; border-radius: 15px; width: 300px; margin: auto; margin-top: 100px; }
-        input { padding: 10px; width: 90%; margin: 5px 0; border: none; border-radius: 8px; }
-        button { background: #d7a773; color: white; border: none; padding: 10px; width: 100%; margin-top: 10px; border-radius: 8px; cursor: pointer; }
-        button:hover { background: #dca791; }
-        a { color: #d7a773; text-decoration: none; }
-        .alert { background: #ff6b6b; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
-        .success { background: #51cf66; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
-        .password-requirements { text-align: left; background: #f8f9fa; color: #333; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Crear cuenta</h2>
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        
-        <div class="password-requirements">
-            <strong>Requisitos de contraseña:</strong>
-            <ul>
-                <li>Entre 8 y 15 caracteres</li>
-                <li>Al menos una mayúscula</li>
-                <li>Al menos una minúscula</li>
-                <li>Al menos un número</li>
-            </ul>
-        </div>
-        
-        <form method="post">
-            <input type="text" name="nombre" placeholder="Nombre Completo" required><br>
-            <input type="email" name="correo" placeholder="Correo" required><br>
-            <input type="password" name="contrasena" placeholder="Contraseña" required><br>
-            <button type="submit">Registrar</button>
-        </form>
-        <p>¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
-    </div>
-</body>
-</html>
-"""
-
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "usuario" not in session or not session.get("es_admin"):
+            flash("Acceso denegado. Se requiere cuenta de administrador.")
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function 
 
 # RUTAS
 @app.route("/")
@@ -154,11 +73,17 @@ def login():
             session["usuario"] = usuario["nombre"]
             session["correo"] = usuario["correo"]
             session["id_usuario"] = usuario["id"]
-            flash("¡Inicio de sesión exitoso!")
-            return redirect(url_for("estado"))
+            session["es_admin"] = usuario.get("es_admin", False)
+            
+            if session["es_admin"]:
+                flash("¡Bienvenido administrador!")
+                return redirect(url_for("admin_panel"))
+            else:
+                flash("¡Inicio de sesión exitoso!")
+                return redirect(url_for("estado"))
         else:
             flash("Correo o constraseña incorrectos")
-    return render_template_string(plantilla_login)
+    return render_template("login.html")
 
 
 @app.route("/registro", methods=["GET", "POST"])
@@ -173,12 +98,12 @@ def registro():
         existente = cursor.fetchone()
         if existente:
             flash("Ese correo ya está registrado.")
-            return render_template_string(plantilla_registro)
+            return render_template("registro.html")
 
         es_valida, mensaje = validar_contrasena(contrasena)
         if not es_valida:
             flash(mensaje)
-            return render_template_string(plantilla_registro)
+            return render_template("registro.html")
 
         hash_contra = bcrypt.hashpw(contrasena.encode('utf-8'), bcrypt.gensalt())
         cursor.execute("INSERT INTO usuarios (nombre, correo, contrasena) VALUES (%s, %s, %s)", 
@@ -187,7 +112,7 @@ def registro():
 
         flash("Registro exitoso. Ahora inicia sesión.")
         return redirect(url_for("login"))
-    return render_template_string(plantilla_registro)
+    return render_template("registro.html")
 
 @app.route("/principal")
 def principal():
@@ -200,6 +125,72 @@ def logout():
     session.clear()
     flash("Has cerrado sesión correctamente.")
     return redirect(url_for("login"))
+
+#Ruta panel de administracion
+@app.route("/admin")
+@admin_required
+def admin_panel():
+    cursor.execute("""
+                   SELECT f.*, u.nombre, u.correo
+                   FROM formularios f
+                   JOIN usuarios u ON f.usuario_id = u.id
+                   WHERE f.status = 'En revisión'
+                   ORDER BY f.fecha_solicitud DESC
+                   """)
+    solicitudes = cursor.fetchall()
+    return render_template("admin_panel.html", solicitudes=solicitudes)
+
+#Ruta para detalles de una solicitud
+@app.route("/admin/solicitud/<int:solicitud_id>")
+@admin_required
+def ver_solicitud(solicitud_id):
+    cursor.execute("""
+                   SELECT f.*, u.nombre, u.correo, d.ine_path, d.comprobante_domicilio_path
+                   FROM formularios f
+                   JOIN usuarios u ON f.usuario_id = u.id
+                   LEFT JOIN documentos d ON f.usuario_id = d.usuario_id
+                   WHERE f.id = %s
+                   """, (solicitud_id,))
+    solicitud = cursor.fetchone()
+    if not solicitud:
+        flash("Solicitud no encontrada.")
+        return redirect(url_for("admin_panel"))
+    return render_template("detalle_solicitud.html", solicitud=solicitud) 
+
+#Ruta para aprobar/rechazar solicitud
+@app.route("/admin/decision", methods=["POST"])
+@admin_required
+def tomar_decision():
+    solicitud_id = request.form.get("solicitud_id")
+    decision = request.form.get("decision")
+    comentarios = request.form.get("comentarios", "")
+    
+    nuevo_status = "Aprobado" if decision == "aprobar" else "Denegado"
+    
+    # Actualizar estado en la base de datos
+    cursor.execute("""
+                     UPDATE formularios
+                     SET status = %s, comentarios_admin = %s
+                     WHERE id = %s
+                   """, (nuevo_status, comentarios, solicitud_id))
+    db.commit()
+    
+    flash(f"Solicitud {nuevo_status.lower()} correctamente.")
+    return redirect(url_for("admin_panel"))
+
+#Ruta historial de decisiones
+@app.route("/admin/historial")
+@admin_required
+def historial():
+    cursor.execute("""
+                   SELECT f.*, u.nombre, u.correo
+                   FROM formularios f
+                   JOIN usuarios u ON f.usuario_id = u.id
+                   WHERE f.status != 'En revisión'
+                   ORDER BY f.fecha_solicitud DESC
+                   """)
+    historial = cursor.fetchall()
+    return render_template("historial_admin.html", historial=historial)
 
 
 ##################################################################

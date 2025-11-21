@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Registro</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #c96148; color: white; text-align: center; }
+        .container { background: #802d20; padding: 30px; border-radius: 15px; width: 300px; margin: auto; margin-top: 100px; }
+        input { padding: 10px; width: 90%; margin: 5px 0; border: none; border-radius: 8px; }
+        button { background: #d7a773; color: white; border: none; padding: 10px; width: 100%; margin-top: 10px; border-radius: 8px; cursor: pointer; }
+        button:hover { background: #dca791; }
+        a { color: #d7a773; text-decoration: none; }
+        .alert { background: #ff6b6b; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .success { background: #51cf66; color: white; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .password-requirements { text-align: left; background: #f8f9fa; color: #333; padding: 10px; border-radius: 5px; margin: 10px 0; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Crear cuenta</h2>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        <div class="password-requirements">
+            <strong>Requisitos de contraseña:</strong>
+            <ul>
+                <li>Entre 8 y 15 caracteres</li>
+                <li>Al menos una mayúscula</li>
+                <li>Al menos una minúscula</li>
+                <li>Al menos un número</li>
+            </ul>
+        </div>
+        
+        <form method="post">
+            <input type="text" name="nombre" placeholder="Nombre Completo" required><br>
+            <input type="email" name="correo" placeholder="Correo" required><br>
+            <input type="password" name="contrasena" placeholder="Contraseña" required><br>
+            <button type="submit">Registrar</button>
+        </form>
+        <p>¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
+    </div>
+</body>
+</html>
